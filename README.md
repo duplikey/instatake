@@ -18,6 +18,5 @@ It simply uses:
 * A [cors proxy](https://github.com/gr2m/CORS-Proxy) to allow cross-domain ajax calls
 
 Please, don't ask me to put it online again. Just download and enjoy it.
-If you wanna take a look to what I do for job [download one of my games](https://play.google.com/store/apps/details?id=net.mangatar.dengen) ;)
 
-For any questions write me here on github or on twitter [@duplikey](https://www.twitter.com/duplikey)
+If you wanna take a look to what I do for job [download one of my games](https://play.google.com/store/apps/details?id=net.mangatar.dengen) ;)
