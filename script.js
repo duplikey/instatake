@@ -1,30 +1,15 @@
 var images = new Array();
 var account = null;
 var limit = 300;
-var bar = $('.progress-bar');
-
-if(!JSZip.support.blob) {
-	showError("InstaTake only works with a recent browser!");
-	$('.download-button').addClass('disabled');
-}
-else {
-	$('#username').focus();
-}
+//your account name here
+var account = null;
 
 console.log = function() {};
 
 function parse(id) {
-	account = $('#username').val();
-
 	if (!checkUsername(account)) {
-		showError('Username not valid!');
+		alert('Username not valid!');
 		return false;
-	}
-
-	//first cicle, click
-	if (id == '') {
-		ga('send', 'event', 'button', 'click', 'take');
-		reset();
 	}
 
 	url = 	'https://query.yahooapis.com/v1/public/yql?q=' +
@@ -37,11 +22,11 @@ function parse(id) {
 		dataType : 'json',
 		success : function(json) {
 			if (json.query.results == null) {
-				showError('Account not found! Do you think it\'s valid? Please try in few minutes ;)');
+				alert('Account not found! Do you think it\'s valid? Please try in few minutes ;)');
 				return false;
 			}
 			else if (json.query.results.json.items == undefined) {
-				showError('Account private or empty!');
+				alert('Account private or empty!');
 				return false;
 			}
 
@@ -53,14 +38,11 @@ function parse(id) {
 
 			if(more == 'true' && images.length < limit)
 				parse(items[19]['id'], images);
-			else {
-				ga('send', 'event', 'download', 'true');
-				$('.total-value').html(images.length);
+			else 
 				createZip();
-			}
 		},
 		error : function(xhr, txt, e) {
-			showError('Something went wrong! Probably too many requests. Please try in few minutes ;)');
+			alert('Something went wrong! Probably too many requests. Please try in few minutes ;)');
 			return false;
 		}
 	});
@@ -95,14 +77,6 @@ function deferredAddZip(url, filename, zip) {
 		error : function(xhr, txt, e) {
 			deferred.reject();
 			console.log('error adding: ' + filename);
-		},
-		complete: function(xhr, txt) {
-			var currentValue = parseInt($('.current-value').html()) + 1;
-			var totalValue = parseInt($('.total-value').html());
-
-			$('.current-value').html(currentValue);
-
-			bar.width(((100 * currentValue) / totalValue) + '%');
 		}
 	});
 
@@ -126,31 +100,6 @@ function createZip() {
 
 		saveAs(blob, account + '.zip');
 
-		done();
+		images = new Array();
 	});
-}
-
-function reset() {
-	bar.width('0%');
-	$('.download-icon').addClass('glyphicon-refresh').addClass('spin').removeClass('glyphicon-save');
-	$('.download-button').addClass('disabled');
-	$('.progress').show();
-	$('.total-value').html(0);
-	$('.current-value').html(0);
-	$('.glyphicon-ok').hide();
-	$('.alert').hide();
-}
-
-function done() {
-	images = new Array();
-	$('.glyphicon-ok').show();
-	$('.download-button').removeClass('disabled');
-	$('.download-icon').addClass('glyphicon-save').removeClass('spin').removeClass('glyphicon-refresh');
-}
-
-function showError(msg) {
-	$('.alert').html(msg);
-	$('.alert').show();
-	$('.download-button').removeClass('disabled');
-	$('.download-icon').addClass('glyphicon-save').removeClass('spin').removeClass('glyphicon-refresh');
 }
