@@ -39,7 +39,7 @@ function parse(id) {
 
       if (more == 'true' && images.length < limit)
         parse(items[19]['id'], images);
-      else 
+      else
         createZip();
     },
     error : function(xhr, txt, e) {
@@ -78,7 +78,7 @@ function deferredAddZip(url, filename, zip) {
     },
     error : function(xhr, txt, e) {
       deferred.reject();
-      console.log('error adding: ' + filename);
+      console.err('error adding: ' + filename);
     }
   });
 

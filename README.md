@@ -12,7 +12,7 @@ Since it's pure js, you can download and run on your own PC. No server side requ
 
 It simply uses:
 
-* [YQL](https://developer.yahoo.com/yql/) to interface with an open Instagram endpoing
+* [YQL](https://developer.yahoo.com/yql/) to interface with an open Instagram endpoint
 * [JSZip](https://github.com/Stuk/jszip) to create and manage zip files
 * [FileSaver](https://github.com/eligrey/FileSaver.js/) to allow you save the zip from your browser
 * A [cors proxy](https://github.com/gr2m/CORS-Proxy) to allow cross-domain ajax calls
