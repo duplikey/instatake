@@ -1,21 +1,27 @@
 /**
- * hey JS purists, are you happy now? :p
+ * Hey JS purists, are you happy now? :p
  */
 
-//put your username here
-var account = null;
+//
+// Put your username and some cors proxies here
+//
+var config = {
+  username: 'your_user_here',
+  limit: 300,
+  proxies: ['url1', 'url2', 'url3']
+}
+
 var images = new Array();
-var limit = 300;
 
 function parse(id) {
-  if (!checkUsername(account)) {
+  if (!checkUsername(config.username)) {
     alert('Username not valid!');
     return false;
   }
 
   var url = 'https://query.yahooapis.com/v1/public/yql?q=' +
             'select%20*%20from%20json%20where%20url%3D%22http%3A%2F%2Finstagram.com%2F' +
-            account + '%2Fmedia%3Fmax_id%3D' + id + '%22&format=json';
+            config.username + '%2Fmedia%3Fmax_id%3D' + id + '%22&format=json';
 
   $.ajax({
     url : url,
@@ -39,7 +45,7 @@ function parse(id) {
 
       if (more == 'true' && images.length < limit)
         parse(items[19]['id'], images);
-      else 
+      else
         createZip();
     },
     error : function(xhr, txt, e) {
@@ -56,8 +62,7 @@ function checkUsername(username) {
 }
 
 function getProxy() {
-  //put some cors proxies here
-  var proxies = ['EXAMPLE_URL_1', 'EXAMPLE_URL_2'];
+  var proxies = config.proxies;
 
   return proxies[Math.floor((Math.random() * proxies.length))];
 }
@@ -78,7 +83,7 @@ function deferredAddZip(url, filename, zip) {
     },
     error : function(xhr, txt, e) {
       deferred.reject();
-      console.log('error adding: ' + filename);
+      console.err('error adding: ' + filename);
     }
   });
 
@@ -100,7 +105,7 @@ function createZip() {
   $.when.apply($, deferreds).always(function() {
     var blob = zip.generate({type :'blob'});
 
-    saveAs(blob, account + '.zip');
+    saveAs(blob, config.username + '.zip');
 
     images = new Array();
   });
