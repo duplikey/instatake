@@ -9,9 +9,15 @@ var config = {
   username: 'your_user_here',
   limit: 300,
   proxies: ['url1', 'url2', 'url3']
-}
+};
 
-var images = new Array();
+var images = [];
+
+function checkUsername(username) {
+  var regex = /^[a-zA-Z0-9._]{1,30}$/;
+
+  return regex.test(username);
+}
 
 function parse(id) {
   if (!checkUsername(config.username)) {
@@ -27,12 +33,13 @@ function parse(id) {
     url : url,
     type : 'GET',
     dataType : 'json',
-    success : function(json) {
-      if (json.query.results == null) {
+    success : function (json) {
+      if (json.query.results === null) {
         alert('Account not found! Do you think it\'s valid? Please try in few minutes ;)');
         return false;
       }
-      else if (json.query.results.json.items == undefined) {
+
+      if (json.query.results.json.items === undefined) {
         alert('Account private or empty!');
         return false;
       }
@@ -53,12 +60,6 @@ function parse(id) {
       return false;
     }
   });
-}
-
-function checkUsername(username) {
-  var regex = /^[a-zA-Z0-9._]{1,30}$/;
-
-  return regex.test(username);
 }
 
 function getProxy() {
