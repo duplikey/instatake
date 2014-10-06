@@ -50,7 +50,7 @@ function parse(id) {
       for (i in items)
         images.push(items[i]['images']['standard_resolution']['url']);
 
-      if (more == 'true' && images.length < limit)
+      if (more == 'true' && images.length < config.limit)
         parse(items[19]['id'], images);
       else
         createZip();
